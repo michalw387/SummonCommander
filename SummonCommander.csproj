@@ -1,0 +1,97 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>SummonCommander</AssemblyName>
+    <RootNamespace>SummonCommander</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <!-- assembly_valheim references a newer System.Net.Http than the SDK; the mod doesn't use it. -->
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
+    <ValheimPluginsDir>/home/michal/snap/steam/common/.steam/steam/steamapps/common/Valheim/BepInEx/plugins/SummonCommander/</ValheimPluginsDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="assembly_utils">
+      <HintPath>lib/assembly_utils.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="assembly_guiutils">
+      <HintPath>lib/assembly_guiutils.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Splatform">
+      <HintPath>lib/Splatform.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="assembly_valheim">
+      <HintPath>lib/assembly_valheim.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>lib/UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>lib/UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>lib/UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>lib/UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>lib/Unity.TextMeshPro.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>lib/UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>lib/UnityEngine.UIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>lib/Unity.InputSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>lib/BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>lib/0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="DeployToBepInEx" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ValheimPluginsDir)" />
+  </Target>
+
+  <!-- `dotnet build -c Release` also packs the mod for Thunderstore into bin/thunderstore/.
+       The version comes from PluginVersion in SummonCommanderPlugin.cs. -->
+  <PropertyGroup>
+    <PluginVersion>$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/SummonCommanderPlugin.cs')), '(?s).*PluginVersion = "([^"]+)".*', '$1'))</PluginVersion>
+    <ThunderstoreStagingDir>$(BaseIntermediateOutputPath)thunderstore/</ThunderstoreStagingDir>
+    <ThunderstorePackage>$(MSBuildProjectDirectory)/bin/thunderstore/SummonCommander-$(PluginVersion).zip</ThunderstorePackage>
+  </PropertyGroup>
+
+  <Target Name="PackThunderstore" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <PropertyGroup>
+      <ThunderstoreManifest>$([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/thunderstore/manifest.json').Replace('{version}', '$(PluginVersion)'))</ThunderstoreManifest>
+    </PropertyGroup>
+    <RemoveDir Directories="$(ThunderstoreStagingDir)" />
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName($(ThunderstorePackage)))" />
+    <Copy SourceFiles="thunderstore/icon.png;README.md;CHANGELOG.md;LICENSE" DestinationFolder="$(ThunderstoreStagingDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ThunderstoreStagingDir)plugins/" />
+    <WriteLinesToFile File="$(ThunderstoreStagingDir)manifest.json" Lines="$(ThunderstoreManifest)" Overwrite="true" />
+    <ZipDirectory SourceDirectory="$(ThunderstoreStagingDir)" DestinationFile="$(ThunderstorePackage)" Overwrite="true" />
+    <Message Importance="high" Text="Thunderstore package: $(ThunderstorePackage)" />
+  </Target>
+
+</Project>

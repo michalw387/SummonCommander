@@ -1,0 +1,9 @@
+{
+  "name": "SummonCommander",
+  "version_number": "{version}",
+  "website_url": "https://github.com/michalw387/SummonCommander",
+  "description": "Track and command your Dead Raiser skeletons and Spirit Caller spirits: follow/stay/dismiss hotkeys, HUD panels, minimap pins, summon limit fixes, and walk through your summons instead of being boxed in.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2350"
+  ]
+}

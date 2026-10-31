@@ -6,7 +6,7 @@ First release as **Summon Commander**, the successor of Skeleton Commander 1.9.1
 
 ### Added
 - **Spirit Caller support** – spirit wolves, boars, moose and bears get everything skeletons have: follow /
-  stay / dismiss hotkeys and commands, minimap pins (Spirit Caller icon), HUD panels, health bars, glow,
+  stay / dismiss hotkeys and commands, minimap pins (Spirit Caller icon in the species' HUD color, labeled by species), HUD panels, health bars, glow,
   death notifications and the summon limit fixes (each creature type keeps its own limit, as in the base game).
 - **Walking through summons** – the collision between you and Spirit Caller spirits is removed, so a group of
   spirits can no longer box you in (`Movement.PassThroughSpirits`, on); the same for skeletons with

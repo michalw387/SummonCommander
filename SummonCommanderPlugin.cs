@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using BepInEx;
 using BepInEx.Bootstrap;
@@ -87,6 +88,10 @@ namespace SummonCommander
 
         private readonly List<Character> _summons = new List<Character>();
         private readonly Dictionary<Character, Minimap.PinData> _pins = new Dictionary<Character, Minimap.PinData>();
+        // Spirit pins in their species' HUD color (boxed Color), applied by SummonPatches.ColorSummonPins; entries go
+        // away with their pins.
+        internal static readonly ConditionalWeakTable<Minimap.PinData, object> PinColors =
+            new ConditionalWeakTable<Minimap.PinData, object>();
         private readonly List<Character> _stale = new List<Character>();
         private readonly HashSet<Character> _deathHooked = new HashSet<Character>();
         private readonly Dictionary<SummonKind, Sprite> _pinIcons = new Dictionary<SummonKind, Sprite>();
@@ -589,7 +594,9 @@ namespace SummonCommander
         {
             var pos = summon.transform.position;
             var kind = Summons.GetKind(summon);
-            string name = Texts.Get(kind == SummonKind.Spirit ? "Spirit" : "Skeleton") + (following ? "" : Texts.Get(" (staying)"));
+            // Spirits are labeled by species (Wolf, ...), the same name and color as in the HUD.
+            string name = (kind == SummonKind.Spirit ? Summons.GetSpeciesName(summon) : Texts.Get("Skeleton"))
+                + (following ? "" : Texts.Get(" (staying)"));
             if (_pins.TryGetValue(summon, out var pin))
             {
                 if (pin.m_name == name)
@@ -605,6 +612,8 @@ namespace SummonCommander
             var icon = GetPinIcon(kind);
             if (icon != null)
                 pin.m_icon = icon;
+            if (kind == SummonKind.Spirit)
+                PinColors.Add(pin, Summons.GetSpeciesColor(summon));
             _pins[summon] = pin;
         }
 

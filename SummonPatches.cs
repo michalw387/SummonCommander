@@ -33,6 +33,21 @@ namespace SummonCommander
             }
         }
 
+        // The map draws every pin white (UpdatePins, each frame); give spirit pins their species' color.
+        [HarmonyPatch(typeof(Minimap), "UpdatePins")]
+        [HarmonyPostfix]
+        private static void ColorSummonPins(List<Minimap.PinData> ___m_pins)
+        {
+            foreach (var pin in ___m_pins)
+            {
+                if (pin.m_iconElement == null || !SummonCommanderPlugin.PinColors.TryGetValue(pin, out var color))
+                    continue;
+                pin.m_iconElement.color = (Color)color;
+                if (pin.m_NamePinData?.PinNameText != null)
+                    pin.m_NamePinData.PinNameText.color = (Color)color;
+            }
+        }
+
         // The game shows creature health bars only within 10 m; extend that for our summons.
         [HarmonyPatch(typeof(EnemyHud), "TestShow")]
         [HarmonyPostfix]

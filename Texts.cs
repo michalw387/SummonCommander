@@ -52,7 +52,6 @@ namespace SummonCommander
                     ["{0} summons over the summon limit - dismissed"] = "Przywołańce ponad limit - odesłane: {0}",
                     // The name may be a woman's (a renamed summon), so no gendered verb.
                     ["{0} has died"] = "{0} nie żyje",
-                    ["Spirit"] = "Duch",
                     ["Skeleton"] = "Szkielet",
                     [" (staying)"] = " (czeka)",
                     ["Follow"] = "Podążaj",

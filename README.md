@@ -26,7 +26,7 @@ dedicated servers or by other players.
 - **Commands and hotkeys** – follow, stay and dismiss for all summons at once, only skeletons or only
   spirits (chat command), or only the one you are aiming at (the hover text shows the hotkeys).
 - **Minimap pins** – each summon gets a pin (skeleton trophy for skeletons, Spirit Caller icon for
-  spirits); the label on the large map shows whether it follows you or stays.
+  spirits, in the species' HUD color); the label on the large map shows the species and whether it stays.
 - **HUD** – below the minimap: how many skeletons and spirits you have (optionally how many are following or
   staying), how many spirits of each species you have against the Spirit Caller's limit
   (`Spirits: wolf 2/3 · boar 3/3 · moose 1/3 · bear 0/3`, full species highlighted), and a panel per

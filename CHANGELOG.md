@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1
+
+### Added
+- Requirements and installation instructions in the README.
+
 ## 1.0.0
 
 First release as **Summon Commander**, the successor of Skeleton Commander 1.9.1.

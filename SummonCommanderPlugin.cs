@@ -27,7 +27,7 @@ namespace SummonCommander
     {
         public const string PluginGuid = "xmordax.valheim.summoncommander";
         public const string PluginName = "Summon Commander";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.1";
         private const string SkeletonCommanderGuid = "xmordax.valheim.skeletoncommander";
         // Skeleton Commander's settings are copied on first launch (its file is left in place).
         private const string SkeletonCommanderConfigFileName = SkeletonCommanderGuid + ".cfg";

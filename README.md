@@ -51,6 +51,33 @@ dedicated servers or by other players.
   the game simulates are dismissed, also when you use a portal or die, unless another player is near them
   (`Summon.KeepNearOtherPlayers`).
 
+## Requirements
+
+- Valheim (PC)
+- [BepInExPack Valheim](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/) (BepInEx 5)
+
+## Installation
+
+### With a mod manager (recommended)
+
+Install **SummonCommander** from [Thunderstore](https://thunderstore.io/c/valheim/p/xMordax/SummonCommander/)
+with r2modman or the Thunderstore Mod Manager; BepInExPack Valheim is installed with it.
+
+### Manually
+
+1. Install BepInExPack Valheim following its instructions and start the game once so BepInEx
+   creates its folders.
+2. Copy `SummonCommander.dll` to:
+   ```
+   <Valheim folder>/BepInEx/plugins/SummonCommander/
+   ```
+3. Start the game. On first launch the config file
+   `BepInEx/config/xmordax.valheim.summoncommander.cfg` is created (with your Skeleton Commander settings,
+   if you had that mod).
+
+If you used Skeleton Commander, you can remove it (`BepInEx/plugins/SkeletonCommander/`). To uninstall
+Summon Commander, delete the `BepInEx/plugins/SummonCommander/` folder (and optionally the `.cfg` file).
+
 ## Controls
 
 ### Hotkeys
